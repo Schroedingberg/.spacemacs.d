@@ -53,6 +53,7 @@ values."
      haskell
      ipython-notebook
      javascript
+     java
      latex
      python
      ruby
@@ -61,6 +62,7 @@ values."
      sql
      ess
      no-dots
+     semantic
      ;books
 ;     extra-lang
 ;     +lang
@@ -77,6 +79,7 @@ values."
                                       android-mode
                                       beacon
                                       4clojure
+                                      jdee
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -119,7 +122,7 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 'random
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
@@ -132,12 +135,12 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(monokai
+                         spacemacs-dark
                          spacemacs-light
                          solarized-light
                          solarized-dark
                          leuven
-                         monokai
                          zenburn
                          sunny-day)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
@@ -166,7 +169,7 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-distinguish-gui-tab t
    ;; (Not implemented) dotspacemacs-distinguish-gui-ret nil
    ;; The command key used for Evil commands (ex-commands) and
    ;; Emacs commands (M-x).
@@ -306,6 +309,7 @@ you should place your code here."
   (global-set-key "\C-xg" 'magit-status)
   (global-set-key "\C-cb" 'org-iswitchb)
   (global-set-key "\C-cq" 'org-dashboard-display)
+  ;;(global-set-key <f6> 'helm-semantic-or-imenu)
   ;;;;;;;;;;;
   ;; Modes ;;
   ;;;;;;;;;;;
@@ -341,6 +345,13 @@ you should place your code here."
        (mu4e-trash-folder  "/Gmail/Trash")
        (mu4e-refile-folder "/Gmail/Archive")
 
+       )
+
+      ("Zoho"
+       (user-mail-address "aaronrebmann@zoho.com")
+       (mu4e-sent-folder "/zoho/Sent")
+       (mu4e-drafts-folder "/zoho/Drafts")
+       (mu4e-trash-folder "/zoho/Trash")
        )))
 
 
@@ -404,11 +415,14 @@ you should place your code here."
 (global-set-key (kbd "C-x m") 'mu4e)
 (setq smtpmail-multi-accounts '(
                                 (zoho .
-                                       ("aaronrebmann@zoho.com" "smtp.zoho.com" 465 nil ssl nil nil nil ))
+                                       ("aaronrebmann@zoho.com" "smtp.zoho.com" 587 nil starttls nil nil nil ))
                                  (HSF .
                                        ("rebmann.aaron@stud.hs-fresenius.de" "mail.hs-fresenius.de" 587 nil nil nil nil nil))
                                   (Gmail .
-                                          ("aaronrebmann@gmail.com" "smtp.gmail.com" 587 nil starttls nil nil nil))))
+                                         ("aaronrebmann@gmail.com" "smtp.gmail.com" 587 nil starttls nil nil nil))
+                                  (JGU .
+                                       ("arebmann@students.uni-mainz.de" "mail.uni-mainz.de" 587 nil ssl nil nil nil))
+                                  ))
 
 
 
@@ -416,9 +430,10 @@ you should place your code here."
       (quote
        (("aaronrebmann@gmail.com" Gmail)
         ("aaronrebmann@zoho.com" zoho)
-        ("rebmann.aaron@stud.hs-fresenius.de" HSF))))
+        ("rebmann.aaron@stud.hs-fresenius.de" HSF)
+        ("arebmann@students.uni-mainz.de" JGU))))
 
-(setq smtpmail-multi-default-account (quote Gmail))
+(setq smtpmail-multi-default-account (quote zoho))
 
 (setq message-send-mail-function 'smtpmail-multi-send-it)
 
@@ -451,6 +466,8 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-term-color-vector
+   [unspecified "#14191f" "#d15120" "#81af34" "#deae3e" "#7e9fc9" "#a878b5" "#7e9fc9" "#dcdddd"])
  '(company-quickhelp-mode t)
  '(compilation-message-face (quote default))
  '(cua-global-mark-cursor-color "#2aa198")
@@ -459,8 +476,10 @@ you should place your code here."
  '(cua-read-only-cursor-color "#859900")
  '(custom-safe-themes
    (quote
-    ("40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "3a69621a68c2d3550a4c777ffc000e1ea66f5bc2f61112814c591e1bda3f5704" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "72c7c8b431179cbcfcea4193234be6a0e6916d04c44405fc87905ae16bed422a" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" "9cb6358979981949d1ae9da907a5d38fb6cde1776e8956a1db150925f2dad6c1" "868f73b5cf78e72ca2402e1d48675e49cc9a9619c5544af7bf216515d22b58e7" "f64c9f8b4241b680b186f4620afb9c82fa2a76cf4498a7431f90db59bb1892eb" "cedd3b4295ac0a41ef48376e16b4745c25fa8e7b4f706173083f16d5792bb379" "f9805a89d4309ca29b68c4a6b3d8f13f7931603e59b881515a27535d6ffa1a6e" "19ba41b6dc0b5dd34e1b8628ad7ae47deb19f968fe8c31853d64ea8c4df252b8" "f04122bbc305a202967fa1838e20ff741455307c2ae80a26035fbf5d637e325f" "3632cf223c62cb7da121be0ed641a2243f7ec0130178722554e613c9ab3131de" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "66132890ee1f884b4f8e901f0c61c5ed078809626a547dbefbb201f900d03fd8" default)))
+    ("a800120841da457aa2f86b98fb9fd8df8ba682cebde033d7dbf8077c1b7d677a" "40f6a7af0dfad67c0d4df2a1dd86175436d79fc69ea61614d668a635c2cd94ab" "3a69621a68c2d3550a4c777ffc000e1ea66f5bc2f61112814c591e1bda3f5704" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "72c7c8b431179cbcfcea4193234be6a0e6916d04c44405fc87905ae16bed422a" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" "9cb6358979981949d1ae9da907a5d38fb6cde1776e8956a1db150925f2dad6c1" "868f73b5cf78e72ca2402e1d48675e49cc9a9619c5544af7bf216515d22b58e7" "f64c9f8b4241b680b186f4620afb9c82fa2a76cf4498a7431f90db59bb1892eb" "cedd3b4295ac0a41ef48376e16b4745c25fa8e7b4f706173083f16d5792bb379" "f9805a89d4309ca29b68c4a6b3d8f13f7931603e59b881515a27535d6ffa1a6e" "19ba41b6dc0b5dd34e1b8628ad7ae47deb19f968fe8c31853d64ea8c4df252b8" "f04122bbc305a202967fa1838e20ff741455307c2ae80a26035fbf5d637e325f" "3632cf223c62cb7da121be0ed641a2243f7ec0130178722554e613c9ab3131de" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "66132890ee1f884b4f8e901f0c61c5ed078809626a547dbefbb201f900d03fd8" default)))
+ '(fci-rule-character-color "#192028")
  '(fci-rule-color "#073642" t)
+ '(haskell-compile-cabal-build-command "stack build")
  '(helm-external-programs-associations (quote (("pdf" . "zathura"))))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -485,6 +504,7 @@ you should place your code here."
  '(hl-fg-colors
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(linum-format " %7i " t)
  '(magit-diff-use-overlays nil)
  '(magit-merge-arguments nil)
  '(max-lisp-eval-depth 900)
@@ -499,7 +519,7 @@ you should place your code here."
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (xterm-color shell-pop multi-term eshell-prompt-extras esh-help marshal 4clojure highlight-tail beacon android-mode ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode chicken-scheme quack helm-bibtex biblio parsebib biblio-core sicp solarized-theme smtpmail-multi company-auctex zonokai-theme zenburn-theme zen-and-art-theme zeal-at-point web-beautify underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme stekene-theme sql-indent spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme slime shm seti-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reverse-theme rbenv rainbow-mode rainbow-identifiers railscasts-theme pyvenv pytest pyenv-mode py-yapf purple-haze-theme professional-theme pony-mode planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme pandoc-mode ox-pandoc ht organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme magit-gh-pulls lush-theme light-soap-theme ledger-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc jbeans-theme jazz-theme ir-black-theme inkpot-theme hy-mode hindent heroku-theme hemisu-theme helm-pydoc helm-dash hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme github-clone github-browse-file git-link gist gh logito pcache geiser gandalf-theme flycheck-ledger flycheck-haskell floobits flatui-theme flatland-theme fish-mode firebelly-theme farmhouse-theme espresso-theme erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet elfeed ein websocket dracula-theme django-theme disaster darktooth-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-tern dash-functional tern company-ghc ghc haskell-mode company-cabal company-c-headers company-anaconda colorsarenice-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized coffee-mode cmm-mode cmake-mode clues-theme clj-refactor inflections edn cider multiple-cursors paredit peg clang-format cider-eval-sexp-fu queue clojure-mode chruby cherry-blossom-theme busybee-theme bundler inf-ruby bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auctex apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f ample-zen-theme ample-theme alect-themes afternoon-theme toc-org smeargle orgit org-repo-todo org-present org-pomodoro alert log4e gntp org-plus-contrib org-bullets mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request helm-flyspell helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flycheck-pos-tip flycheck evil-magit magit magit-popup git-commit with-editor diff-hl company-statistics company-quickhelp pos-tip company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering volatile-highlights vi-tilde-fringe spaceline s powerline smooth-scrolling restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox hydra spinner page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu eval-sexp-fu highlight elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build use-package which-key bind-key bind-map evil spacemacs-theme)))
+    (stickyfunc-enhance srefactor jdee eclim xterm-color shell-pop multi-term eshell-prompt-extras esh-help marshal 4clojure highlight-tail beacon android-mode ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode chicken-scheme quack helm-bibtex biblio parsebib biblio-core sicp solarized-theme smtpmail-multi company-auctex zonokai-theme zenburn-theme zen-and-art-theme zeal-at-point web-beautify underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme stekene-theme sql-indent spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme slime shm seti-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reverse-theme rbenv rainbow-mode rainbow-identifiers railscasts-theme pyvenv pytest pyenv-mode py-yapf purple-haze-theme professional-theme pony-mode planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme pandoc-mode ox-pandoc ht organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme magit-gh-pulls lush-theme light-soap-theme ledger-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc jbeans-theme jazz-theme ir-black-theme inkpot-theme hy-mode hindent heroku-theme hemisu-theme helm-pydoc helm-dash hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme github-clone github-browse-file git-link gist gh logito pcache geiser gandalf-theme flycheck-ledger flycheck-haskell floobits flatui-theme flatland-theme fish-mode firebelly-theme farmhouse-theme espresso-theme erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet elfeed ein websocket dracula-theme django-theme disaster darktooth-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-tern dash-functional tern company-ghc ghc haskell-mode company-cabal company-c-headers company-anaconda colorsarenice-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized coffee-mode cmm-mode cmake-mode clues-theme clj-refactor inflections edn cider multiple-cursors paredit peg clang-format cider-eval-sexp-fu queue clojure-mode chruby cherry-blossom-theme busybee-theme bundler inf-ruby bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auctex apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f ample-zen-theme ample-theme alect-themes afternoon-theme toc-org smeargle orgit org-repo-todo org-present org-pomodoro alert log4e gntp org-plus-contrib org-bullets mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request helm-flyspell helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flycheck-pos-tip flycheck evil-magit magit magit-popup git-commit with-editor diff-hl company-statistics company-quickhelp pos-tip company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering volatile-highlights vi-tilde-fringe spaceline s powerline smooth-scrolling restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox hydra spinner page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu eval-sexp-fu highlight elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build use-package which-key bind-key bind-map evil spacemacs-theme)))
  '(paradox-github-token t)
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
