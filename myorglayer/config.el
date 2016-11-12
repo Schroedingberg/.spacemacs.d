@@ -25,7 +25,8 @@
   (sequence "STARTED(s)" "WAITING(w)" "|" "DELEGATED(g)")
   (sequence "APPT(a)" "|" "ATTENDED(1)")
   (sequence "BUG(b@)" "TESTING(i)""|" "FIXED(f)")
-  (sequence "|" "CANCELED(c)")  ))
+  (sequence "|" "CANCELED(c)")
+  (sequence "TIMETRACKING(+)")))
   ;; ;; Farben anpassen
 (setq org-todo-keyword-faces
       '(("STARTED"  . (:foreground "#b70101" :weight bold))
@@ -35,6 +36,7 @@
 	("WAITING"  . (:foreground "orange" :weight bold))
 	("DELEGATED"  . (:foreground "forestgreen" :weight bold))
 	("CANCELED"  . shadow)
+  ("TIMETRACKING" . shadow)
 
 	))
 ;; ;; Capture settings
@@ -57,6 +59,18 @@
 
 ))
 		 
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Global column view ;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+;(setq org-columns-default-format "%25ITEM %TODO %ROOM %TAGS")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom agenda views ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;(setq org-agenda-custom-commands
+
 
 (setq org-latex-pdf-process
       (quote
