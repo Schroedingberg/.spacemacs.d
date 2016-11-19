@@ -42,21 +42,46 @@
 ;; ;; Capture settings
  (setq org-default-notes-file "~/.org/Organizer.org")
 ;;  ;;Org Capture templates
+;;;; This is a helper function to avoid having to use literal strings inside a string.
+(defun replace-minus-with-slash (S)
+  (replace-regexp-in-string "-" "/"  S))
 (setq org-capture-templates
-       '(
-	 ("i" "Information" entry (file+headline  "~/.org/Organizer.org" "Captured information")
-	  "* %?\n Entered on %U\n %i")
-	 ("t" "Todo" entry (file+headline "~/.org/Organizer.org" "Tasks")
-             "* TODO %?\n %t\nEntered on %U\n  %i")
-   ("j" "Journal" entry (file+datetree "~/.org/Journal.org")
-    "* %?\nEntered on %U\n  %i\n")
-   ("f" "Food" entry (file+datetree "~/.org/Food.org" "Food tracking")
-    "* %?\n Entered on %U\n %i")
-	("c" "Configure" entry (file+headline "~/.org/Organizer.org" "Configure")
-	 )
-	("b" "Birthday" entry (file+headline "~/.org/Birthdays.org" "New Birthdays")
-	 "* APPT %?\n %i\n")
+      '(
+        ("i" "Information" entry (file+headline  "~/.org/Organizer.org" "Captured information")
+         "* %?\n Entered on %U\n %i")
+        ("t" "Todo" entry (file+headline "~/.org/Organizer.org" "Tasks")
+         "* TODO %?\n %t\nEntered on %U\n  %i")
+        ("j" "Journal" entry (file+datetree "~/.org/Journal.org")
+         "* %?\nEntered on %U\n  %i\n")
+        ("f" "Food" entry (file+datetree "~/.org/Food.org" "Food tracking")
+         "* %?\n Entered on %U\n %i")
+        ("c" "Configure" entry (file+headline "~/.org/Organizer.org" "Configure")
+         )
+        ("b" "Birthday" entry (file+headline "~/.org/Birthdays.org" "New Birthdays")
+         "* APPT %?\n %i\n")
+        ;; Inspiriert von
+        ;; http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org-capture-templates/
+        ;; wird hier die Macht von Org-Capture benutzt, um häufig auftretende
+        ;; Transaktionen schnell und bequem eingeben zu können. Dabei werden die
+        ;; Informationen einfach plain an das Ledgerfile angehängt, also nicht
+        ;; in ein Org-file geschrieben. Damit sind die Daten zwar nicht direkt
+        ;; für org mode verfügbar, aber weil Finanzen und Organisation sehr eng
+        ;; zusammenhängen ist es durchaus sinnvoll das zumindest auf diese lose Art zu koppeln.
+         ("l" "Ledger entries")
+         ("le" "Lebensmittel" plain (file "~/.org/finance.dat")
+          "%(replace-minus-with-slash (org-read-date)) %^{Kreditor}
+               Ausgaben:Lebensmittel  %^{Betrag} €
+               Aktiva:Umlaufvermögen:%^{Konto}" :empty-lines 1)
+         ("lp" "Katzen" plain (file "~/.org/finance.dat")
+          "%(replace-minus-with-slash (org-read-date)) %^{Kreditor, Artikelbezeichnung}
+            Ausgaben:Haustiere %^{Betrag} €
+            Aktiva:Umlaufvermögen:%^{Konto}" :empty-lines 1)
+         ("lm" "Manuell eintragen" plain (file "~/.org/finance.dat")
+          "%(replace-minus-with-slash (org-read-date)) %^{Kreditor, Artikelbezeichnung}
+          " :empty-lines 1)
 
+
+;; Richtig cool wäre es, wenn man über Helm Konten auswählen könnte (Und nicht nur über die helm-autocompletion aus dem Speicher)
 ))
 		 
 
