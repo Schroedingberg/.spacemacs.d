@@ -174,4 +174,4 @@
 
 
 ;; Refile
-(setq org-refile-targets 'org-agenda-files)
+(setq org-refile-targets '((org-agenda-files . (:level . 1) )))
