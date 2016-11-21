@@ -1,11 +1,11 @@
 (with-eval-after-load 'org
-      (setq org-agenda-files
-            (quote
+      ;; (setq org-agenda-files
+      ;;       (quote
 
-             ("~/.org/Food.org"
-              "~/.org/JGU.org"
-        "~/.org/Organizer.org"
-        "~/.org/Birthdays.org")))
+      ;;        ("~/.org/Food.org"
+      ;;         "~/.org/JGU.org"
+      ;;   "~/.org/Organizer.org"
+      ;;   "~/.org/Birthdays.org")))
 
 ;; Org Agenda settings
 ;; Give my window view back to me when I am finished with agenda stuff
@@ -171,3 +171,7 @@
 
 )
 
+
+
+;; Refile
+(setq org-refile-targets 'org-agenda-files)

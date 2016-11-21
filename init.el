@@ -561,7 +561,7 @@ you should place your code here."
  '(hl-fg-colors
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
- '(ledger-post-amount-alignment-column 62)
+ '(ledger-post-amount-alignment-column 62 t)
  '(linum-format " %7i " t)
  '(magit-diff-use-overlays nil)
  '(magit-merge-arguments nil)
