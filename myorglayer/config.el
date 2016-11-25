@@ -49,8 +49,11 @@
       '(
         ("i" "Information" entry (file+headline  "~/.org/Organizer.org" "Captured information")
          "* %?\n Entered on %U\n %i")
-        ("t" "Todo" entry (file+headline "~/.org/Organizer.org" "Tasks")
-         "* TODO %?\n %t\nEntered on %U\n  %i")
+        ("t" "Task")
+        ("tt" "Standard Todo" entry (file+headline "~/.org/Organizer.org" "Tasks")
+         "* TODO %?\n \nEntered on %U\n  %i")
+        ("td" "Standard Todo with date" entry (file+headline "~/.org/Organizer.org" "Tasks")
+         "* TODO %^{Title}\n %^t\n%?\n \nEntered on %U\n  %i")
         ("j" "Journal" entry (file+datetree "~/.org/Journal.org")
          "* %?\nEntered on %U\n  %i\n")
         ("f" "Food" entry (file+datetree "~/.org/Food.org" "Food tracking")
@@ -79,7 +82,8 @@
          ("lm" "Manuell eintragen" plain (file "~/.org/finance.dat")
           "%(replace-minus-with-slash (org-read-date)) %^{Kreditor, Artikelbezeichnung}
           " :empty-lines 1)
-
+         ;("v" "Lecture notes")
+        ; ("v")
 
 ;; Richtig cool wäre es, wenn man über Helm Konten auswählen könnte (Und nicht nur über die helm-autocompletion aus dem Speicher)
 ))
@@ -165,7 +169,7 @@
           (lambda ()
             ;(local-set-key (kbd "C-c C-x C-i") 'org-clock-in)
             (local-set-key (kbd "C-c C-x C-o") 'org-clock-out)
-
+            (local-set-key (kbd "C-c C-w") 'org-refile)
 
             ))
 
